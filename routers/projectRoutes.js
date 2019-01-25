@@ -133,7 +133,7 @@ router.put('/:id', async (req, res) => {
         res
             .status(200)
             .json({
-                changes: changes
+                changes
             });
     } catch (err) {
         res
@@ -145,13 +145,35 @@ router.put('/:id', async (req, res) => {
 });
 
 // D - Destory
-router.delete('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            url: '/api/projects/:id',
-            operation: 'DELETE'
-        });
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    let record = null;
+
+    try {
+        const recordsDeleted = await db.destroy(id);
+        record = await db.findById(id);
+
+        if (record) {
+            const recordsDeleted = await db.destroy(id);
+            res
+                .status(200)
+                .json({
+                    recordsDeleted
+                });
+        } else {
+            res
+                .status(404)
+                .json({
+                    errorMessage: `There is no existing record to delete with the id ${id}`
+                });
+        }
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 router.use('/', (req, res) => res.send('Welcome to the Project API'));
