@@ -15,6 +15,11 @@ const findById = id => db('projects').where({
     id
 }).first();
 
+// Unique Actions
+const findProjectActions = id => db('actions').where({
+    project_id: id
+});
+
 // U - Update
 const update = (id, record) => db('projects').where({
     id
@@ -29,6 +34,7 @@ module.exports = {
     create,
     readAll,
     findById,
+    findProjectActions,
     update,
     destroy
 };
