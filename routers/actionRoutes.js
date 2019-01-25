@@ -145,13 +145,27 @@ router.get('/:id', async (req, res) => {
 });
 
 // U - Update
-router.put('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            url: '/api/actions/:id',
-            operation: 'PUT'
-        });
+router.put('/:id', async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const updates = req.body;
+
+    try {
+        const changesMade = await db.update(id, updates);
+
+        res
+            .status(200)
+            .json({
+                changesMade
+            });
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 // D - Destory

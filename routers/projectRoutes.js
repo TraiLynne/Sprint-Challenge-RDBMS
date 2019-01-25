@@ -128,12 +128,12 @@ router.put('/:id', async (req, res) => {
     const updates = req.body;
 
     try {
-        const changes = await db.update(id, updates);
+        const changesMade = await db.update(id, updates);
 
         res
             .status(200)
             .json({
-                changes
+                changesMade
             });
     } catch (err) {
         res
