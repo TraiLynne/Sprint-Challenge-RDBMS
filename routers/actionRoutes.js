@@ -94,13 +94,26 @@ router.post('/', async (req, res) => {
 
 // R - Read
 // All
-router.get('/', (req, res) => {
-    res
-        .status(200)
-        .json({
-            url: '/api/actions/',
-            operation: 'GET'
-        });
+router.get('/', async (req, res) => {
+    try {
+        const actions = await db.readAll();
+
+        actions.length > 0 ?
+            res
+            .status(200)
+            .json(actions) :
+            res
+            .status(404)
+            .json({
+                errorMessage: 'There are no actions found at this time. Please create one and try again'
+            });
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 // Unique
