@@ -2,8 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-// Sub-Routers
+const projectRoutes = require('./projectRoutes');
+const actionRoutes = require('./actionRoutes');
 
+// Sub-Routers
+router.use('/projects', projectRoutes);
+router.use('/actions', actionRoutes);
 
 router.use('/', (req, res) => res.send('Welcome to the main API!!'));
 
