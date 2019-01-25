@@ -64,7 +64,27 @@ router.post('/', async (req, res) => {
 
 // R - Read
 // All
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+    try {
+        const projects = await db.readAll();
+
+        projects.length > 0 ?
+            res
+                .status(200)
+                .json(projects)
+            :
+            res
+                .status(404)
+                .json({
+                    errorMessage: 'There are no projects found at this time. Please create one and try again'
+                });
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
     res
         .status(200)
         .json({
