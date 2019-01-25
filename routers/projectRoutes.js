@@ -85,12 +85,6 @@ router.get('/', async (req, res) => {
                 errorMessage: 'Houston, we have a problem'
             });
     }
-    res
-        .status(200)
-        .json({
-            url: '/api/projects/',
-            operation: 'GET'
-        });
 });
 
 // Unique
