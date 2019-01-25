@@ -117,13 +117,31 @@ router.get('/', async (req, res) => {
 });
 
 // Unique
-router.get('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            url: '/api/actions/:id',
-            operation: 'GET'
-        });
+router.get('/:id', async (req, res) => {
+    const {
+        id
+    } = req.params;
+    let action = null;
+
+    try {
+        action = await db.findById(id);
+
+        action ?
+            res
+            .status(200)
+            .json(action) :
+            res
+            .status(404)
+            .json({
+                errorMessage: 'No project found'
+            });
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 // U - Update
