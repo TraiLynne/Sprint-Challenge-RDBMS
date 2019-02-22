@@ -29,9 +29,23 @@ This will be akin to the Web API that you built in the last sprint, only this ti
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 1. Explain the difference between `RDBMS` and `SQL`.
-1. Why do tables need a `primary key`?
-1. What is the name given to a table column that references the primary key on another table.
-1. What do we need in order to have a _many to many_ relationship between two tables.
+   
+   SQL (Structured Query Language) is a programming language that has become the standard for managing databases and the data within them. It is the de facto way of interacting with DBMS (Database Management Systems). One of those systems being an RDBMS (Relational Database Management System). 
+   An RDBMS is specialized software used to manage a Relational Database (that name is right on point).
+   The main difference is SQL is a language and an RDBMS is a software. RDBMS uses SQL to manage data.
+
+2. Why do tables need a `primary key`?
+
+  The primary key of a table is the unique identifier for each record within the table. That primary key is used as the reference in other tables if the 2 records are related.
+
+3. What is the name given to a table column that references the primary key on another table.
+
+  The foreign key is the name given to the table column that references the primary key on another table. It is usually labeled after the singular version of the table name that holds the primary key followed by '_id'.
+
+4. What do we need in order to have a _many to many_ relationship between two tables.
+
+  From my understanding, a total of 3 tables are required. 
+  For example, with students and teachers, students can have multiple teachers and teachers can have multiple students. On the student and teacher tables, each will hold a primary key. The 3rd table will hold foreign keys referencing the students and teachers primary keys making the multiple connections. 
 
 ## Project Set Up
 
