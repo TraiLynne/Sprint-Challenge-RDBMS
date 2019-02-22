@@ -161,13 +161,26 @@ router.put('/:id', async (req, res) => {
 });
 
 // D - Destroy
-router.delete('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'DELETE',
-            url: '/api/actions/:id'
-        });
+router.delete('/:id', async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        const deletedActions = await db.destroyAction(id);
+
+        res
+            .status(200)
+            .json({
+                deletedActions
+            })
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 router.use('/', (req, res) => res.send('Welcome to the Action API'));
