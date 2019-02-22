@@ -58,12 +58,6 @@ router.post('/', async (req, res) => {
                 errorMessage: 'Houston, we have a problem'
             });
     }
-    res
-        .status(201)
-        .json({
-            operation: 'POST',
-            url: '/api/projects/'
-        });
 });
 
 // R - Read
