@@ -114,13 +114,29 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'GET',
-            url: '/api/actions/:id'
-        });
+router.get('/:id', async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        const action = await db.readAction(id);
+
+        action ?
+            res
+                .status(200)
+                .json(action)
+        :
+            res
+                .status(404)
+                .json({
+                    errorMessage: 'There was no Action found'
+                })
+    } catch (err) {
+        res
+            .status(500)
+            .json('Houston, we have a problem');
+    }
 });
 
 // U - Update
