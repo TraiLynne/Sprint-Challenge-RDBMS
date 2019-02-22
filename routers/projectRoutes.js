@@ -141,23 +141,45 @@ router.get('/:id/actions', async (req, res) => {
 });
 
 // U - Update
-router.put('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'PUT',
-            url: '/api/projects/:id'
-        });
+router.put('/:id', async (req, res) => {
+    const {
+        id
+    } = req.params
+    const updatedRecord = req.body;
+
+    try {
+        const updates = await db.updateProject(id, updatedRecord);
+        res
+            .status(200)
+            .json({updates})
+    } catch (err) {
+        res
+            .status(500)
+            .json('Houston, we have a problem');
+    }
 });
 
 // D - Destroy
-router.delete('/:id', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'DELETE',
-            url: '/api/projects/:id'
-        });
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedActions = await db.destroyProjectActions(id);
+        const deletedProjects = await db.destroyProject(id);
+
+        res
+            .status(200)
+            .json({
+                deletedProjects,
+                deletedActions
+            })
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                errorMessage: 'Houston, we have a problem'
+            });
+    }
 });
 
 router.use('/', (req, res) => res.send('Welcome to the Project API'));
