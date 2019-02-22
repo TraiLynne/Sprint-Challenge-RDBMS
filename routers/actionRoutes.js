@@ -93,13 +93,25 @@ router.post('/', async (req, res) => {
 });
 
 // R - Read
-router.get('/', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'GET',
-            url: '/api/actions/'
-        });
+router.get('/', async (req, res) => {
+
+    try {
+        const actions = await db.readActions();
+
+        actions.length > 0 ?
+            res
+            .status(200)
+            .json(actions) :
+            res
+            .status(404)
+            .json({
+                errorMessage: 'No Actions located at this time'
+            });
+    } catch (err) {
+        res
+            .status(500)
+            .json('Houston, we have a problem');
+    }
 });
 
 router.get('/:id', (req, res) => {
