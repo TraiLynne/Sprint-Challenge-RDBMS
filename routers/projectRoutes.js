@@ -1,6 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
+const db = require('../db/helpers/projectModel');
 
 router.use(express.json());
 
@@ -16,13 +17,26 @@ router.post('/', (req, res) => {
 });
 
 // R - Read
-router.get('/', (req, res) => {
-    res
-        .status(200)
-        .json({
-            operation: 'GET',
-            url: '/api/projects/'
-        });
+router.get('/', async (req, res) => {
+
+    try {
+        const projects = await db.readProjects();
+
+        projects.length > 0 ?
+            res
+                .status(200)
+                .json(projects)
+            :
+            res
+                .status(404)
+                .json({
+                    errorMessage: 'No Projects located at this time'
+                });
+    } catch (err) {
+        res
+            .status(500)
+            .json('Houston, we have a problem');
+    }
 });
 
 router.get('/:id', (req, res) => {
