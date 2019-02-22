@@ -1,6 +1,6 @@
 const knex = require('knex');
 
-const dbConfig('../../knexfile.js');
+const dbConfig = require('../../knexfile.js');
 const db = knex(dbConfig.development);
 const dbName = 'projects';
 
